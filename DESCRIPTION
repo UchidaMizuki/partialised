@@ -10,7 +10,7 @@ Authors@R:
         role = c("aut", "cre")
     )
 Description: Extends purrr's partialised functions to allow easy modification of 
-    arguments. These functions are similar to function-like objects in julia 
+    arguments. These are similar to function-like objects in Julia 
     (<https://docs.julialang.org/en/v1/manual/methods/#Function-like-objects>).
 License: MIT + file LICENSE
 Encoding: UTF-8

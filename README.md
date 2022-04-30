@@ -10,8 +10,8 @@ status](https://www.r-pkg.org/badges/version/partialised)](https://CRAN.R-projec
 <!-- badges: end -->
 
 partialised extends purrr’s partialised functions to allow easy
-modification of arguments. These functions are similar to function-like
-objects in julia
+modification of arguments. These are similar to function-like objects in
+Julia
 (<https://docs.julialang.org/en/v1/manual/methods/#Function-like-objects>).
 
 ## Installation
@@ -20,6 +20,10 @@ You can install the development version of partialised from
 [GitHub](https://github.com/) with:
 
 ``` r
+# the released version from CRAN:
+install.packages("partialised")
+
+# the development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("UchidaMizuki/partialised")
 ```

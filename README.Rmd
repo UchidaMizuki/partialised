@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 partialised extends purrr's partialised functions to allow easy modification of 
-arguments. These functions are similar to function-like objects in julia 
+arguments. These are similar to function-like objects in Julia 
 (https://docs.julialang.org/en/v1/manual/methods/#Function-like-objects).
 
 ## Installation
@@ -28,6 +28,10 @@ arguments. These functions are similar to function-like objects in julia
 You can install the development version of partialised from [GitHub](https://github.com/) with:
 
 ``` r
+# the released version from CRAN:
+install.packages("partialised")
+
+# the development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("UchidaMizuki/partialised")
 ```
