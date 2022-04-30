@@ -45,14 +45,45 @@ arguments <- function(x) {
 print.function_like <- function(x, ...) {
   cat("<", pillar::type_sum(x), ">\n",
       sep = "")
+  print(partialised_fn(x))
+  cat("(\n")
+  print_args(arguments(x))
+  cat("  ...\n")
+  cat(")\n")
 
-  # from `purrr:::print.purrr_function_partial()`
-  out <- x
-  body <- quo_squash(partialised_body(out))
-  body[[1L]] <- partialised_fn(out)
-  body(out) <- body
-  out <- set_env(out, global_env())
-  print(out, ...)
+  invisible(x)
+}
+
+print_args <- function(x) {
+  nms <- names2(x)
+  nms[nms == ""] <- "."
+  nms <- pillar::align(nms)
+  nms <- paste0("  ", nms, " = ")
+
+  width_old <- getOption("width")
+  width <- max(pillar::get_extent(nms))
+
+  options(width = pmax(0, width_old - width))
+
+  out <- purrr::map2(unname(x), nms,
+                     function(x, nm) {
+                       if (is_scalar_atomic(x) && !is_named(x)) {
+                         out <- as.character(x)
+                       } else {
+                         out <- utils::capture.output(x)
+                       }
+
+                       names(out)[[1L]] <- nm
+                       names(out)[-1L] <- strrep(" ", width)
+
+                       out
+                     })
+  out <- vec_c(!!!out)
+
+  options(width = width_old)
+
+  cat(paste0(names(out), out),
+      sep = "\n")
 
   invisible(x)
 }
