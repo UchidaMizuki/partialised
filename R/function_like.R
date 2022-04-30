@@ -3,10 +3,14 @@ new_function_like <- function(f, args, ...,
                               class = character()) {
   vec_assert(args, list())
 
+  attrs <- list2(...)
+  attrs <- attrs[!names(attrs) %in% c("body", "fn", "args")]
+
   data <- exec(purrr::partial, f, !!!args)
-  structure(data,
-            args = args,
-            class = c(class, "function_like", class(data)))
+  exec(structure,
+       data,
+       args = args, !!!attrs,
+       class = c(class, "function_like", class(data)))
 }
 
 # from `purrr:::partialised_body()`
@@ -20,16 +24,20 @@ partialised_fn <- function(x) {
 }
 
 #' @export
-arguments <- function(f) {
-  attr(f, "args")
+arguments <- function(x) {
+  attr(x, "args")
 }
 
 #' @export
-`arguments<-` <- function(f, value) {
-  data <- exec(purrr::partial, partialised_fn(f), !!!value)
-  structure(data,
-            args = value,
-            class = class(f))
+`arguments<-` <- function(x, value) {
+  attrs <- attributes(x)
+  attrs <- attrs[!names(attrs) %in% c("body", "fn", "args")]
+
+  data <- exec(purrr::partial, partialised_fn(x), !!!value)
+  exec(structure,
+       data,
+       args = value, !!!attrs,
+       class = class(x))
 }
 
 #' @export
