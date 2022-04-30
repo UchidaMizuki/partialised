@@ -2,6 +2,8 @@
 new_function_partial <- function(f,
                                  args = list(), ...,
                                  class = character()) {
+  vec_assert(args, list())
+
   attrs <- list2(...)
   attrs <- attrs[!names(attrs) %in% c("body", "fn")]
 
@@ -24,7 +26,7 @@ partialised_fn <- function(x) {
 #' @export
 arguments <- function(x) {
   out <- call_args(partialised_body(x))
-  out[-length(out)]
+  out[-vec_size(out)]
 }
 
 #' @export
@@ -36,6 +38,21 @@ arguments <- function(x) {
   exec(structure,
        data, !!!attrs,
        class = class(x))
+}
+
+#' @export
+arg <- function(x, which) {
+  vec_assert(which, character())
+
+  arguments(x)[[which]]
+}
+
+#' @export
+`arg<-` <- function(x, which, value) {
+  vec_assert(which, character())
+
+  arguments(x)[[which]] <- value
+  x
 }
 
 #' @export
@@ -74,7 +91,7 @@ print_args <- function(x) {
 
                        out
                      })
-  out <- exec(c, !!!out)
+  out <- vec_c(!!!out)
 
   options(width = width_old)
 

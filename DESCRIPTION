@@ -12,5 +12,6 @@ LazyData: true
 Imports: 
     pillar,
     purrr,
-    rlang
+    rlang,
+    vctrs
 RoxygenNote: 7.1.2

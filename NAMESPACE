@@ -2,8 +2,11 @@
 
 S3method(print,function_partial)
 S3method(type_sum,function_partial)
+export("arg<-")
 export("arguments<-")
+export(arg)
 export(arguments)
 export(new_function_partial)
 import(rlang)
+import(vctrs)
 importFrom(pillar,type_sum)
