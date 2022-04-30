@@ -79,6 +79,7 @@ print_args <- function(x) {
 
     options(width = pmax(0, width_old - width))
 
+    spaces <- strrep(" ", width)
     out <- purrr::map2(unname(x), nms,
                        function(x, nm) {
                          if (is_scalar_atomic(x) && !is_named(x)) {
@@ -88,7 +89,7 @@ print_args <- function(x) {
                          }
 
                          names(out)[[1L]] <- nm
-                         names(out)[-1L] <- strrep(" ", width)
+                         names(out)[-1L] <- spaces
 
                          out
                        })
