@@ -13,20 +13,20 @@ knitr::opts_chunk$set(
 )
 ```
 
-# funlikr
+# partialised
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-funlikr is an R implementation of function-like object of julia.
+partialised is an R implementation of function-like object of julia.
 
 ## Installation
 
-You can install the development version of funlikr from [GitHub](https://github.com/) with:
+You can install the development version of partialised from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("UchidaMizuki/funlikr")
+devtools::install_github("UchidaMizuki/partialised")
 ```
 
 ## Example
@@ -34,13 +34,13 @@ devtools::install_github("UchidaMizuki/funlikr")
 This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
-library(funlikr)
+library(partialised)
 
 f <- function(x, y) {
   sqrt(x ^ 2 + y ^ 2)
 }
 
-fl <- new_function_like(f, list(x = 3))
+fl <- new_function_partial(f, list(x = 3))
 
 fl
 fl(y = 4)

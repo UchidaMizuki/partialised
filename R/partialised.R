@@ -1,17 +1,14 @@
 #' @export
-new_function_like <- function(f,
-                              args = list(), ...,
-                              class = character()) {
-  vec_assert(args, list())
-
+new_function_partial <- function(f,
+                                 args = list(), ...,
+                                 class = character()) {
   attrs <- list2(...)
-  attrs <- attrs[!names(attrs) %in% c("body", "fn", "args")]
+  attrs <- attrs[!names(attrs) %in% c("body", "fn")]
 
   data <- exec(purrr::partial, f, !!!args)
   exec(structure,
-       data,
-       args = args, !!!attrs,
-       class = c(class, "function_like", class(data)))
+       data, !!!attrs,
+       class = c(class, "function_partial", class(data)))
 }
 
 # from `purrr:::partialised_body()`
@@ -26,24 +23,24 @@ partialised_fn <- function(x) {
 
 #' @export
 arguments <- function(x) {
-  attr(x, "args")
+  out <- call_args(partialised_body(x))
+  out[-length(out)]
 }
 
 #' @export
 `arguments<-` <- function(x, value) {
   attrs <- attributes(x)
-  attrs <- attrs[!names(attrs) %in% c("body", "fn", "args")]
+  attrs <- attrs[!names(attrs) %in% c("body", "fn")]
 
   data <- exec(purrr::partial, partialised_fn(x), !!!value)
   exec(structure,
-       data,
-       args = value, !!!attrs,
+       data, !!!attrs,
        class = class(x))
 }
 
 #' @export
-print.function_like <- function(x, ...) {
-  cat_line("<", pillar::type_sum(x), ">\n")
+print.function_partial <- function(x, ...) {
+  cat_line("<", pillar::type_sum(x), ">")
   print(partialised_fn(x))
   cat_line("(")
   print_args(arguments(x))
@@ -77,7 +74,7 @@ print_args <- function(x) {
 
                        out
                      })
-  out <- vec_c(!!!out)
+  out <- exec(c, !!!out)
 
   options(width = width_old)
 
@@ -87,6 +84,6 @@ print_args <- function(x) {
 }
 
 #' @export
-type_sum.function_like <- function(x) {
-  "function_like"
+type_sum.function_partial <- function(x) {
+  "function_partial"
 }
