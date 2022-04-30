@@ -1,5 +1,6 @@
 #' @export
-new_function_like <- function(f, args, ...,
+new_function_like <- function(f,
+                              args = list(), ...,
                               class = character()) {
   vec_assert(args, list())
 
