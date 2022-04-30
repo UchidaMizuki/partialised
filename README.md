@@ -64,6 +64,16 @@ arg(fl, "y")
 #> NULL
 arg(fl, "y") <- 8
 
+fl
+#> <function_partial>
+#> function(x, y) {
+#>   sqrt(x ^ 2 + y ^ 2)
+#> }
+#> (
+#>   x = 6
+#>   y = 8
+#>   ...
+#> )
 fl()
 #> [1] 10
 ```

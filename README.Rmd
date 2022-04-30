@@ -54,6 +54,7 @@ fl(y = 8)
 arg(fl, "y")
 arg(fl, "y") <- 8
 
+fl
 fl()
 ```
 
