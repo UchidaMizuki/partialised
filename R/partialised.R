@@ -1,3 +1,22 @@
+#' Create partialised functions
+#'
+#' @param f A function.
+#' @param args A list of default arguments.
+#' @param ... Additional arguments for attributes.
+#' @param class Name of subclass.
+#'
+#' @return A `partialised` function.
+#'
+#' @seealso [purrr::partial()]
+#'
+#' @examples
+#' dist <- function(x, y) {
+#'   sqrt(x ^ 2 + y ^ 2)
+#' }
+#' pdist <- new_partialised(dist,
+#'                          list(x = 3))
+#' pdist(y = 4)
+#'
 #' @export
 new_partialised <- function(f,
                             args = list(), ...,
@@ -23,13 +42,25 @@ partialised_fn <- function(x) {
   attr(x, "fn")
 }
 
+#' Argument lists for partialised functions
+#'
+#' @param x Partialised function.
+#' @param value A list of arguments.
+#'
+#' @return `arguments()` returns a list of arguments.
+#'
+#' @name arguments
+NULL
+
 #' @export
+#' @rdname arguments
 arguments <- function(x) {
   out <- call_args(partialised_body(x))
   out[-vec_size(out)]
 }
 
 #' @export
+#' @rdname arguments
 `arguments<-` <- function(x, value) {
   attrs <- attributes(x)
   attrs <- attrs[!names(attrs) %in% c("body", "fn")]
@@ -40,7 +71,20 @@ arguments <- function(x) {
        class = class(x))
 }
 
+#' Arguments for partialised functions
+#'
+#' @param x Partialised function.
+#' @param which A non-empty character string specifying which argument is to be
+#' accessed.
+#' @param value An object, the new value of the argument.
+#'
+#' @return `arg` returns an argument.
+#'
+#' @name arg
+NULL
+
 #' @export
+#' @rdname arg
 arg <- function(x, which) {
   vec_assert(which, character())
 
@@ -48,6 +92,7 @@ arg <- function(x, which) {
 }
 
 #' @export
+#' @rdname arg
 `arg<-` <- function(x, which, value) {
   vec_assert(which, character())
 

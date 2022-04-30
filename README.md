@@ -4,9 +4,15 @@
 # partialised
 
 <!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/partialised)](https://CRAN.R-project.org/package=partialised)
 <!-- badges: end -->
 
-partialised is an R implementation of function-like object of julia.
+partialised extends purrr’s partialised functions to allow easy
+modification of arguments. These functions are similar to function-like
+objects in julia
+(<https://docs.julialang.org/en/v1/manual/methods/#Function-like-objects>).
 
 ## Installation
 
