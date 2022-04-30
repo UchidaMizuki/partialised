@@ -36,26 +36,27 @@ This is a basic example which shows you how to solve a common problem:
 ```{r example}
 library(partialised)
 
-f <- function(x, y) {
+dist <- function(x, y) {
   sqrt(x ^ 2 + y ^ 2)
 }
 
-fl <- new_function_partial(f, list(x = 3))
+pdist <- new_partialised(dist,
+                         list(x = 3))
 
-fl
-fl(y = 4)
+pdist
+pdist(y = 4)
 
-arguments(fl)
-arguments(fl)$x <- 6
+arguments(pdist)
+arguments(pdist)$x <- 6
 
-fl
-fl(y = 8)
+pdist
+pdist(y = 8)
 
-arg(fl, "y")
-arg(fl, "y") <- 8
+arg(pdist, "y")
+arg(pdist, "y") <- 8
 
-fl
-fl()
+pdist
+pdist()
 ```
 
 

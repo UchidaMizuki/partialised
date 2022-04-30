@@ -1,7 +1,7 @@
 #' @export
-new_function_partial <- function(f,
-                                 args = list(), ...,
-                                 class = character()) {
+new_partialised <- function(f,
+                            args = list(), ...,
+                            class = character()) {
   vec_assert(args, list())
 
   attrs <- list2(...)
@@ -10,7 +10,7 @@ new_function_partial <- function(f,
   data <- exec(purrr::partial, f, !!!args)
   exec(structure,
        data, !!!attrs,
-       class = c(class, "function_partial", class(data)))
+       class = c(class, "partialised", class(data)))
 }
 
 # from `purrr:::partialised_body()`
@@ -56,8 +56,8 @@ arg <- function(x, which) {
 }
 
 #' @export
-print.function_partial <- function(x, ...) {
-  cat_line("<", pillar::type_sum(x), ">")
+print.partialised <- function(x, ...) {
+  cat_line("<", obj_sum(x), ">")
   print(partialised_fn(x))
   cat_line("(")
   print_args(arguments(x))
@@ -68,39 +68,46 @@ print.function_partial <- function(x, ...) {
 }
 
 print_args <- function(x) {
-  nms <- names2(x)
-  nms[nms == ""] <- "."
-  nms <- pillar::align(nms)
-  nms <- paste0("  ", nms, " = ")
+  if (!vec_is_empty(x)) {
+    nms <- names2(x)
+    nms[nms == ""] <- "."
+    nms <- pillar::align(nms)
+    nms <- paste0("  ", nms, " = ")
 
-  width_old <- getOption("width")
-  width <- max(pillar::get_extent(nms))
+    width_old <- getOption("width")
+    width <- max(pillar::get_extent(nms))
 
-  options(width = pmax(0, width_old - width))
+    options(width = pmax(0, width_old - width))
 
-  out <- purrr::map2(unname(x), nms,
-                     function(x, nm) {
-                       if (is_scalar_atomic(x) && !is_named(x)) {
-                         out <- as.character(x)
-                       } else {
-                         out <- utils::capture.output(x)
-                       }
+    out <- purrr::map2(unname(x), nms,
+                       function(x, nm) {
+                         if (is_scalar_atomic(x) && !is_named(x)) {
+                           out <- as.character(x)
+                         } else {
+                           out <- utils::capture.output(x)
+                         }
 
-                       names(out)[[1L]] <- nm
-                       names(out)[-1L] <- strrep(" ", width)
+                         names(out)[[1L]] <- nm
+                         names(out)[-1L] <- strrep(" ", width)
 
-                       out
-                     })
-  out <- vec_c(!!!out)
+                         out
+                       })
+    out <- vec_c(!!!out)
 
-  options(width = width_old)
+    options(width = width_old)
 
-  cat_line(names(out), out)
+    cat_line(names(out), out)
+  }
 
   invisible(x)
 }
 
 #' @export
-type_sum.function_partial <- function(x) {
-  "function_partial"
+type_sum.partialised <- function(x) {
+  "partialised"
+}
+
+#' @export
+obj_sum.partialised <- function(x) {
+  paste0(type_sum(x), "(", big_mark(vec_size(arguments(x))), ")")
 }
