@@ -43,13 +43,12 @@ arguments <- function(x) {
 
 #' @export
 print.function_like <- function(x, ...) {
-  cat("<", pillar::type_sum(x), ">\n",
-      sep = "")
+  cat_line("<", pillar::type_sum(x), ">\n")
   print(partialised_fn(x))
-  cat("(\n")
+  cat_line("(")
   print_args(arguments(x))
-  cat("  ...\n")
-  cat(")\n")
+  cat_line("  ...")
+  cat_line(")")
 
   invisible(x)
 }
@@ -82,8 +81,7 @@ print_args <- function(x) {
 
   options(width = width_old)
 
-  cat(paste0(names(out), out),
-      sep = "\n")
+  cat_line(names(out), out)
 
   invisible(x)
 }
