@@ -50,6 +50,11 @@ arguments(fl)$x <- 6
 
 fl
 fl(y = 8)
+
+arg(fl, "y")
+arg(fl, "y") <- 8
+
+fl()
 ```
 
 
