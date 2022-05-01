@@ -43,14 +43,15 @@ pdist <- new_partialised(dist,
                          list(x = 3))
 pdist
 #> <partialised[1]>
-#> function(x, y) {
-#>   sqrt(x ^ 2 + y ^ 2)
+#> function (x, y) 
+#> {
+#>     sqrt(x^2 + y^2)
 #> }
 #> (
 #>   x = 3
 #>   ...
 #> )
-pdist(y = 4)
+pdist(y = 4) 
 #> [1] 5
 
 arguments(pdist)
