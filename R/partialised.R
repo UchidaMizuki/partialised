@@ -140,10 +140,12 @@ NULL
 #' @export
 print.partialised <- function(x, ...) {
   cat_line("<", obj_sum(x), ">")
-  print(partialised_fn(x))
+
+  print_fn(partialised_fn(x))
+
   cat_line("(")
   print_args(arguments(x))
-  cat_line("  ...")
+  cat_line(strrep(" ", 2L), "...")
   cat_line(")")
 
   invisible(x)
@@ -154,7 +156,7 @@ print_args <- function(x) {
     nms <- names2(x)
     nms[nms == ""] <- "."
     nms <- pillar::align(nms)
-    nms <- paste0("  ", nms, " = ")
+    nms <- paste0(strrep(" ", 2L), nms, " = ")
 
     width_old <- getOption("width")
     width <- max(pillar::get_extent(nms))
@@ -181,8 +183,12 @@ print_args <- function(x) {
 
     cat_line(names(out), out)
   }
+}
 
-  invisible(x)
+print_fn <- function(x) {
+  environment(x) <- global_env()
+  print(x,
+        useSource = FALSE)
 }
 
 #' @export
