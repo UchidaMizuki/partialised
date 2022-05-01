@@ -50,7 +50,7 @@ dist <- function(x, y) {
 pdist <- new_partialised(dist,
                          list(x = 3))
 pdist
-pdist(y = 4) 
+pdist(y = 4)
 
 arguments(pdist)
 pdist$x

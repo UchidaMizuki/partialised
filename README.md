@@ -51,7 +51,7 @@ pdist
 #>   x = 3
 #>   ...
 #> )
-pdist(y = 4) 
+pdist(y = 4)
 #> [1] 5
 
 arguments(pdist)
