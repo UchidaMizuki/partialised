@@ -39,7 +39,9 @@ partialised_body <- function(x) {
 
 # from `purrr:::partialised_fn()`
 partialised_fn <- function(x) {
-  attr(x, "fn")
+  # attr(x, "fn")
+  body <- get_expr(partialised_body(x))
+  body[[1L]]
 }
 
 #' Argument lists for partialised functions
@@ -71,34 +73,69 @@ arguments <- function(x) {
        class = class(x))
 }
 
-#' Arguments for partialised functions
+#' Extract or replace arguments for partialised functions
 #'
 #' @param x Partialised function.
-#' @param which A non-empty character string specifying which argument is to be
-#' accessed.
+#' @param i Indices specifying arguments to extract or replace.
+#' @param ... Additional arguments.
 #' @param value An object, the new value of the argument.
 #'
-#' @return `arg` returns an argument.
+#' @return `[`, `[[` and `$` return arguments.
 #'
-#' @name arg
+#' @name extract
 NULL
 
 #' @export
-#' @rdname arg
-arg <- function(x, which) {
-  vec_assert(which, character())
-
-  arguments(x)[[which]]
+#' @rdname extract
+`[.partialised` <- function(x, i, ...) {
+  arguments(x)[i, ...]
 }
 
 #' @export
-#' @rdname arg
-`arg<-` <- function(x, which, value) {
-  vec_assert(which, character())
-
-  arguments(x)[[which]] <- value
+#' @rdname extract
+`[<-.partialised` <- function(x, i, value) {
+  arguments(x)[i] <- value
   x
 }
+
+#' @export
+#' @rdname extract
+`[[.partialised` <- function(x, i, ...) {
+  arguments(x)[[i, ...]]
+}
+
+#' @export
+#' @rdname extract
+`[[<-.partialised` <- function(x, i, value) {
+  arguments(x)[[i]] <- value
+  x
+}
+
+#' @export
+#' @rdname extract
+`$.partialised` <- function(x, i) {
+  x[[i]]
+}
+
+#' @export
+#' @rdname extract
+`$<-.partialised` <- function(x, i, value) {
+  x[[i]] <- value
+  x
+}
+
+# arg <- function(x, which) {
+#   vec_assert(which, character())
+#
+#   arguments(x)[[which]]
+# }
+#
+# `arg<-` <- function(x, which, value) {
+#   vec_assert(which, character())
+#
+#   arguments(x)[[which]] <- value
+#   x
+# }
 
 #' @export
 print.partialised <- function(x, ...) {
@@ -155,5 +192,5 @@ type_sum.partialised <- function(x) {
 
 #' @export
 obj_sum.partialised <- function(x) {
-  paste0(type_sum(x), "(", big_mark(vec_size(arguments(x))), ")")
+  paste0(type_sum(x), "[", big_mark(vec_size(arguments(x))), "]")
 }

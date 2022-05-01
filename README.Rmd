@@ -49,20 +49,17 @@ dist <- function(x, y) {
 
 pdist <- new_partialised(dist,
                          list(x = 3))
-
 pdist
 pdist(y = 4)
 
 arguments(pdist)
-arguments(pdist)$x <- 6
+pdist$x
+pdist$y
 
-pdist
+pdist$x <- 6
 pdist(y = 8)
 
-arg(pdist, "y")
-arg(pdist, "y") <- 8
-
-pdist
+pdist$y <- 8
 pdist()
 ```
 

@@ -41,9 +41,8 @@ dist <- function(x, y) {
 
 pdist <- new_partialised(dist,
                          list(x = 3))
-
 pdist
-#> <partialised(1)>
+#> <partialised[1]>
 #> function(x, y) {
 #>   sqrt(x ^ 2 + y ^ 2)
 #> }
@@ -57,34 +56,16 @@ pdist(y = 4)
 arguments(pdist)
 #> $x
 #> [1] 3
-arguments(pdist)$x <- 6
+pdist$x
+#> [1] 3
+pdist$y
+#> NULL
 
-pdist
-#> <partialised(1)>
-#> function(x, y) {
-#>   sqrt(x ^ 2 + y ^ 2)
-#> }
-#> (
-#>   x = 6
-#>   ...
-#> )
+pdist$x <- 6
 pdist(y = 8)
 #> [1] 10
 
-arg(pdist, "y")
-#> NULL
-arg(pdist, "y") <- 8
-
-pdist
-#> <partialised(2)>
-#> function(x, y) {
-#>   sqrt(x ^ 2 + y ^ 2)
-#> }
-#> (
-#>   x = 6
-#>   y = 8
-#>   ...
-#> )
+pdist$y <- 8
 pdist()
 #> [1] 10
 ```
