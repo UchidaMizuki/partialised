@@ -26,7 +26,7 @@ new_partialised <- function(f,
   attrs <- list2(...)
   attrs <- attrs[!names(attrs) %in% c("body", "fn")]
 
-  data <- exec(purrr::partial, f, !!!args)
+  data <- exec(purrr::partial, as_function(f), !!!args)
   exec(structure,
        data, !!!attrs,
        class = c(class, "partialised", class(data)))
@@ -151,6 +151,12 @@ print.partialised <- function(x, ...) {
   invisible(x)
 }
 
+print_fn <- function(x) {
+  environment(x) <- global_env()
+  print(x,
+        useSource = FALSE)
+}
+
 print_args <- function(x) {
   if (!vec_is_empty(x)) {
     nms <- names2(x)
@@ -183,12 +189,6 @@ print_args <- function(x) {
 
     cat_line(names(out), out)
   }
-}
-
-print_fn <- function(x) {
-  environment(x) <- global_env()
-  print(x,
-        useSource = FALSE)
 }
 
 #' @export
