@@ -9,8 +9,9 @@ Authors@R:
         email = "uchidamizuki@vivaldi.net", 
         role = c("aut", "cre")
     )
-Description: Extends purrr's partialised functions to allow easy modification of 
-    arguments. These are similar to function-like objects in Julia 
+Description: Provides a 'partialised' class that extends the partialising 
+    function of 'purrr' by making it easier to change the arguments. This is 
+    similar to the function-like object in 'Julia' 
     (<https://docs.julialang.org/en/v1/manual/methods/#Function-like-objects>).
 License: MIT + file LICENSE
 Encoding: UTF-8

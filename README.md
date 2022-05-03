@@ -9,9 +9,9 @@
 status](https://www.r-pkg.org/badges/version/partialised)](https://CRAN.R-project.org/package=partialised)
 <!-- badges: end -->
 
-partialised extends purrr’s partialised functions to allow easy
-modification of arguments. These are similar to function-like objects in
-Julia
+partialised provides a ‘partialised’ class that extends the partialising
+function of ‘purrr’ by making it easier to change the arguments. This is
+similar to the function-like object in ‘Julia’
 (<https://docs.julialang.org/en/v1/manual/methods/#Function-like-objects>).
 
 ## Installation
