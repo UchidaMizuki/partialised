@@ -164,10 +164,11 @@ print_args <- function(x) {
     nms <- pillar::align(nms)
     nms <- paste0(strrep(" ", 2L), nms, " = ")
 
-    width_old <- getOption("width")
-    width <- max(pillar::get_extent(nms))
+    opts <- options()
+    on.exit(options(opts))
 
-    options(width = pmax(0, width_old - width))
+    width <- max(pillar::get_extent(nms))
+    options(width = pmax(0, opts$width - width))
 
     spaces <- strrep(" ", width)
     out <- purrr::map2(unname(x), nms,
@@ -184,9 +185,6 @@ print_args <- function(x) {
                          out
                        })
     out <- vec_c(!!!out)
-
-    options(width = width_old)
-
     cat_line(names(out), out)
   }
 }
