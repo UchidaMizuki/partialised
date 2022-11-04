@@ -26,9 +26,9 @@ new_partialised <- function(f,
   attrs <- list2(...)
   attrs <- attrs[!names(attrs) %in% c("body", "fn")]
 
-  data <- exec(purrr::partial, as_function(f), !!!args)
-  exec(structure,
-       data, !!!attrs,
+  data <- purrr::partial(as_function(f), !!!args)
+  exec(structure, data,
+       fn = f, !!!attrs,
        class = c(class, "partialised", class(data)))
 }
 
@@ -37,11 +37,8 @@ partialised_body <- function(x) {
   attr(x, "body")
 }
 
-# from `purrr:::partialised_fn()`
 partialised_fn <- function(x) {
-  # attr(x, "fn")
-  body <- get_expr(partialised_body(x))
-  body[[1L]]
+  attr(x, "fn")
 }
 
 #' Argument lists for partialised functions
@@ -67,9 +64,10 @@ arguments <- function(x) {
   attrs <- attributes(x)
   attrs <- attrs[!names(attrs) %in% c("body", "fn")]
 
-  data <- exec(purrr::partial, partialised_fn(x), !!!value)
-  exec(structure,
-       data, !!!attrs,
+  f <- partialised_fn(x)
+  data <- purrr::partial(f, !!!value)
+  exec(structure, data,
+       fn = f, !!!attrs,
        class = class(x))
 }
 
@@ -123,19 +121,6 @@ NULL
   x[[i]] <- value
   x
 }
-
-# arg <- function(x, which) {
-#   vec_assert(which, character())
-#
-#   arguments(x)[[which]]
-# }
-#
-# `arg<-` <- function(x, which, value) {
-#   vec_assert(which, character())
-#
-#   arguments(x)[[which]] <- value
-#   x
-# }
 
 #' @export
 print.partialised <- function(x, ...) {
