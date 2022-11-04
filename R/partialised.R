@@ -137,7 +137,7 @@ print.partialised <- function(x, ...) {
 }
 
 print_fn <- function(x) {
-  environment(x) <- global_env()
+  # environment(x) <- global_env()
   print(x,
         useSource = FALSE)
 }
@@ -181,5 +181,5 @@ type_sum.partialised <- function(x) {
 
 #' @export
 obj_sum.partialised <- function(x) {
-  paste0(type_sum(x), "[", big_mark(vec_size(arguments(x))), "]")
+  paste0(type_sum(x), "(", big_mark(vec_size(arguments(x))), ")")
 }
