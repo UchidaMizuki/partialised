@@ -126,7 +126,7 @@ NULL
 print.partialised <- function(x, ...) {
   cat_line("<", obj_sum(x), ">")
 
-  print_fn(partialised_fn(x))
+  print_fn(x)
 
   cat_line("(")
   print_args(arguments(x))
@@ -137,8 +137,9 @@ print.partialised <- function(x, ...) {
 }
 
 print_fn <- function(x) {
-  # environment(x) <- global_env()
-  print(x,
+  x <- partialised_fn(x)
+  environment(x) <- global_env()
+  print(get_expr(x),
         useSource = FALSE)
 }
 
