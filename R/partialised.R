@@ -123,6 +123,11 @@ NULL
 }
 
 #' @export
+names.partialised <- function(x) {
+  names(arguments(x))
+}
+
+#' @export
 print.partialised <- function(x, ...) {
   cat_line("<", obj_sum(x), ">")
 
