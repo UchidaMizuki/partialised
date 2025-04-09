@@ -69,52 +69,34 @@ arguments <- function(x) {
   rlang::exec(structure, data, fn = f, !!!attrs, class = class(x))
 }
 
-#' Extract or replace arguments for partialised functions
-#'
-#' @param x Partialised function.
-#' @param i Indices specifying arguments to extract or replace.
-#' @param ... Additional arguments.
-#' @param value An object, the new value of the argument.
-#'
-#' @return `[`, `[[` and `$` return arguments.
-#'
-#' @name extract
-NULL
-
 #' @export
-#' @rdname extract
 `[.partialised` <- function(x, i, ...) {
   arguments(x)[i, ...]
 }
 
 #' @export
-#' @rdname extract
 `[<-.partialised` <- function(x, i, value) {
   arguments(x)[i] <- value
   x
 }
 
 #' @export
-#' @rdname extract
 `[[.partialised` <- function(x, i, ...) {
   arguments(x)[[i, ...]]
 }
 
 #' @export
-#' @rdname extract
 `[[<-.partialised` <- function(x, i, value) {
   arguments(x)[[i]] <- value
   x
 }
 
 #' @export
-#' @rdname extract
 `$.partialised` <- function(x, i) {
   x[[i]]
 }
 
 #' @export
-#' @rdname extract
 `$<-.partialised` <- function(x, i, value) {
   x[[i]] <- value
   x
@@ -127,7 +109,7 @@ names.partialised <- function(x) {
 
 #' @export
 print.partialised <- function(x, ...) {
-  cli::cat_line("<", pillar::obj_sum(x), ">")
+  cli::cli_text("<{pillar::obj_sum(x)}>")
 
   print_fn(x)
 
