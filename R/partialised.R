@@ -13,26 +13,26 @@
 #' dist <- function(x, y) {
 #'   sqrt(x ^ 2 + y ^ 2)
 #' }
-#' pdist <- new_partialised(dist,
-#'                          list(x = 3))
+#' pdist <- new_partialised(dist, list(x = 3))
 #' pdist(y = 4)
 #'
 #' @export
-new_partialised <- function(f,
-                            args = list(), ...,
-                            class = character()) {
-  vec_assert(args, list())
+new_partialised <- function(f, args = list(), ..., class = character()) {
+  vctrs::vec_assert(args, list())
 
-  attrs <- list2(...)
+  attrs <- rlang::list2(...)
   attrs <- attrs[!names(attrs) %in% c("body", "fn")]
 
-  data <- purrr::partial(as_function(f), !!!args)
-  exec(structure, data,
-       fn = f, !!!attrs,
-       class = c(class, "partialised", class(data)))
+  data <- purrr::partial(rlang::as_function(f), !!!args)
+  rlang::exec(
+    structure,
+    data,
+    fn = f,
+    !!!attrs,
+    class = c(class, "partialised", class(data))
+  )
 }
 
-# from `purrr:::partialised_body()`
 partialised_body <- function(x) {
   attr(x, "body")
 }
@@ -54,8 +54,8 @@ NULL
 #' @export
 #' @rdname arguments
 arguments <- function(x) {
-  out <- call_args(partialised_body(x))
-  out[-vec_size(out)]
+  out <- rlang::call_args(partialised_body(x))
+  out[-vctrs::vec_size(out)]
 }
 
 #' @export
@@ -66,9 +66,7 @@ arguments <- function(x) {
 
   f <- partialised_fn(x)
   data <- purrr::partial(f, !!!value)
-  exec(structure, data,
-       fn = f, !!!attrs,
-       class = class(x))
+  rlang::exec(structure, data, fn = f, !!!attrs, class = class(x))
 }
 
 #' Extract or replace arguments for partialised functions
@@ -129,28 +127,27 @@ names.partialised <- function(x) {
 
 #' @export
 print.partialised <- function(x, ...) {
-  cat_line("<", obj_sum(x), ">")
+  cli::cat_line("<", pillar::obj_sum(x), ">")
 
   print_fn(x)
 
-  cat_line("(")
+  cli::cat_line("(")
   print_args(arguments(x))
-  cat_line(strrep(" ", 2L), "...")
-  cat_line(")")
+  cli::cat_line(strrep(" ", 2L), "...")
+  cli::cat_line(")")
 
   invisible(x)
 }
 
 print_fn <- function(x) {
   x <- partialised_fn(x)
-  environment(x) <- global_env()
-  print(get_expr(x),
-        useSource = FALSE)
+  environment(x) <- rlang::global_env()
+  print(rlang::get_expr(x), useSource = FALSE)
 }
 
 print_args <- function(x) {
-  if (!vec_is_empty(x)) {
-    nms <- names2(x)
+  if (!vctrs::vec_is_empty(x)) {
+    nms <- rlang::names2(x)
     nms[nms == ""] <- "."
     nms <- pillar::align(nms)
     nms <- paste0(strrep(" ", 2L), nms, " = ")
@@ -162,21 +159,20 @@ print_args <- function(x) {
     options(width = pmax(0, opts$width - width))
 
     spaces <- strrep(" ", width)
-    out <- purrr::map2(unname(x), nms,
-                       function(x, nm) {
-                         if (is_scalar_atomic(x) && !is_named(x)) {
-                           out <- as.character(x)
-                         } else {
-                           out <- utils::capture.output(x)
-                         }
+    out <- purrr::map2(unname(x), nms, function(x, nm) {
+      if (rlang::is_scalar_atomic(x) && !rlang::is_named(x)) {
+        out <- as.character(x)
+      } else {
+        out <- utils::capture.output(x)
+      }
 
-                         names(out)[[1L]] <- nm
-                         names(out)[-1L] <- spaces
+      names(out)[[1L]] <- nm
+      names(out)[-1L] <- spaces
 
-                         out
-                       })
-    out <- vec_c(!!!out)
-    cat_line(names(out), out)
+      out
+    })
+    out <- vctrs::vec_c(!!!out)
+    cli::cat_line(names(out), out)
   }
 }
 
@@ -187,5 +183,5 @@ type_sum.partialised <- function(x) {
 
 #' @export
 obj_sum.partialised <- function(x) {
-  paste0(type_sum(x), "(", big_mark(vec_size(arguments(x))), ")")
+  paste0(pillar::type_sum(x), "(", big_mark(vctrs::vec_size(arguments(x))), ")")
 }

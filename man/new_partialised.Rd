@@ -25,8 +25,7 @@ Create partialised functions
 dist <- function(x, y) {
   sqrt(x ^ 2 + y ^ 2)
 }
-pdist <- new_partialised(dist,
-                         list(x = 3))
+pdist <- new_partialised(dist, list(x = 3))
 pdist(y = 4)
 
 }
