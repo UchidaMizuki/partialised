@@ -1,6 +1,6 @@
-Package: partialised
+Package: adverbial
 Type: Package
-Title: Partialised Functions
+Title: Enhanced Partialised and Composed Functions
 Version: 0.1.1.9000
 Authors@R: 
     person(
@@ -9,10 +9,9 @@ Authors@R:
         email = "uchidamizuki@vivaldi.net", 
         role = c("aut", "cre")
     )
-Description: Provides a 'partialised' class that extends the partialising 
-    function of 'purrr' by making it easier to change the arguments. This is 
-    similar to the function-like object in 'Julia' 
-    (<https://docs.julialang.org/en/v1/manual/methods/#Function-like-objects>).
+Description: Provides new_partialised() and new_composed(), which extend the 
+    partial() and compose() functions of 'purrr' to make it easier to extract 
+    and replace arguments and functions.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -24,8 +23,8 @@ Imports:
     vctrs
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-URL: https://github.com/UchidaMizuki/partialised
-BugReports: https://github.com/UchidaMizuki/partialised/issues
+URL: https://github.com/UchidaMizuki/adverbial
+BugReports: https://github.com/UchidaMizuki/adverbial/issues
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

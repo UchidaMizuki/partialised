@@ -1,4 +1,4 @@
 library(testthat)
-library(partialised)
+library(adverbial)
 
-test_check("partialised")
+test_check("adverbial")
