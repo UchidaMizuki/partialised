@@ -5,7 +5,7 @@
 #' @param ... Additional arguments for attributes.
 #' @param class Name of subclass.
 #'
-#' @return A `partialised` function.
+#' @return A `adverbial_function_partial` function.
 #'
 #' @seealso [purrr::partial()]
 #'
@@ -29,7 +29,7 @@ new_partialised <- function(f, args = list(), ..., class = character()) {
     data,
     fn = f,
     !!!attrs,
-    class = c(class, "partialised", class(data))
+    class = c(class, "adverbial_function_partial", class(data))
   )
 }
 
@@ -70,45 +70,45 @@ arguments <- function(x) {
 }
 
 #' @export
-`[.partialised` <- function(x, i, ...) {
+`[.adverbial_function_partial` <- function(x, i, ...) {
   arguments(x)[i, ...]
 }
 
 #' @export
-`[<-.partialised` <- function(x, i, value) {
+`[<-.adverbial_function_partial` <- function(x, i, value) {
   arguments(x)[i] <- value
   x
 }
 
 #' @export
-`[[.partialised` <- function(x, i, ...) {
+`[[.adverbial_function_partial` <- function(x, i, ...) {
   arguments(x)[[i, ...]]
 }
 
 #' @export
-`[[<-.partialised` <- function(x, i, value) {
+`[[<-.adverbial_function_partial` <- function(x, i, value) {
   arguments(x)[[i]] <- value
   x
 }
 
 #' @export
-`$.partialised` <- function(x, i) {
+`$.adverbial_function_partial` <- function(x, i) {
   x[[i]]
 }
 
 #' @export
-`$<-.partialised` <- function(x, i, value) {
+`$<-.adverbial_function_partial` <- function(x, i, value) {
   x[[i]] <- value
   x
 }
 
 #' @export
-names.partialised <- function(x) {
+names.adverbial_function_partial <- function(x) {
   names(arguments(x))
 }
 
 #' @export
-print.partialised <- function(x, ...) {
+print.adverbial_function_partial <- function(x, ...) {
   cli::cli_text("<{pillar::obj_sum(x)}>")
 
   print_fn(x)
@@ -159,11 +159,11 @@ print_args <- function(x) {
 }
 
 #' @export
-type_sum.partialised <- function(x) {
+type_sum.adverbial_function_partial <- function(x) {
   "partialised"
 }
 
 #' @export
-obj_sum.partialised <- function(x) {
+obj_sum.adverbial_function_partial <- function(x) {
   paste0(pillar::type_sum(x), "(", big_mark(vctrs::vec_size(arguments(x))), ")")
 }
