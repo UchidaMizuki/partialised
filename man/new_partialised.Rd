@@ -16,7 +16,7 @@ new_partialised(f, args = list(), ..., class = character())
 \item{class}{Name of subclass.}
 }
 \value{
-A \code{partialised} function.
+A \code{adverbial_function_partial} function.
 }
 \description{
 Create partialised functions
