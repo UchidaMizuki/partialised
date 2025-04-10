@@ -1,12 +1,9 @@
 test_that("dist", {
-  library(partialised)
-
   dist <- function(x, y) {
-    sqrt(x ^ 2 + y ^ 2)
+    sqrt(x^2 + y^2)
   }
 
-  pdist <- new_partialised(dist,
-                           list(x = 3))
+  pdist <- new_partialised(dist, list(x = 3))
   expect_equal(pdist(y = 4), 5)
 
   arguments(pdist)$x <- 6
