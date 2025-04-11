@@ -26,7 +26,7 @@ new_composed <- function(fns, dir = NULL, ..., class = character()) {
   if (is.null(dir)) {
     dir <- "forward"
     cli::cli_alert_info(
-      "No direction specified, using {.code dir = {.val forward}}."
+      "No direction specified, using {.code dir = {.val {dir}}}."
     )
   }
 
