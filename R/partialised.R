@@ -33,14 +33,6 @@ new_partialised <- function(f, args = list(), ..., class = character()) {
   )
 }
 
-partialised_body <- function(x) {
-  attr(x, "body")
-}
-
-partialised_fn <- function(x) {
-  attr(x, "fn")
-}
-
 #' Argument lists for partialised functions
 #'
 #' @param x Partialised function.
@@ -54,7 +46,7 @@ NULL
 #' @export
 #' @rdname arguments
 arguments <- function(x) {
-  out <- rlang::call_args(partialised_body(x))
+  out <- rlang::call_args(attr(x, "body"))
   out[-vctrs::vec_size(out)]
 }
 
@@ -64,7 +56,7 @@ arguments <- function(x) {
   attrs <- attributes(x)
   attrs <- attrs[!names(attrs) %in% c("body", "fn")]
 
-  f <- partialised_fn(x)
+  f <- attr(x, "fn")
   data <- purrr::partial(f, !!!value)
   rlang::exec(structure, data, fn = f, !!!attrs, class = class(x))
 }
@@ -109,7 +101,7 @@ names.adverbial_function_partial <- function(x) {
 
 #' @export
 print.adverbial_function_partial <- function(x, ...) {
-  cli::cli_text("<{pillar::obj_sum(x)}>")
+  cli::cat_line(paste0("<", pillar::obj_sum(x), ">"))
 
   print_fn(x)
 
@@ -122,16 +114,12 @@ print.adverbial_function_partial <- function(x, ...) {
 }
 
 print_fn <- function(x) {
-  x <- partialised_fn(x)
-  environment(x) <- rlang::global_env()
-  print(rlang::get_expr(x), useSource = FALSE)
+  print(attr(x, "fn"))
 }
 
 print_args <- function(x) {
   if (!vctrs::vec_is_empty(x)) {
-    nms <- rlang::names2(x)
-    nms[nms == ""] <- "."
-    nms <- pillar::align(nms)
+    nms <- pillar::align(rlang::names2(x))
     nms <- paste0(strrep(" ", 2L), nms, " = ")
 
     opts <- options()

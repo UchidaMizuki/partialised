@@ -120,11 +120,11 @@ names.adverbial_function_compose <- function(x) {
 
 #' @export
 print.adverbial_function_compose <- function(x, ...) {
-  cli::cli_text("<{pillar::obj_sum(x)}>")
+  cli::cat_line(paste0("<", pillar::obj_sum(x), ">"))
 
   fns <- functions(x)
   for (i in seq_along(fns)) {
-    cli::cli_text("{i}. {names(fns)[[i]]}")
+    cli::cat_line(paste0(i, ". ", names(fns)[[i]]))
     print(fns[[i]], ...)
     cli::cat_line()
   }
