@@ -82,3 +82,4 @@ cdist(1:10)
 
 cdist$sum <- new_partialised(sum, list(na.rm = TRUE))
 cdist(c(1:10, NA))
+```

@@ -89,9 +89,11 @@ cdist
 #> 1. square
 #> function (x) 
 #> x^2
+#> 
 #> 2. sum
 #> function (..., na.rm = FALSE) 
 #> .Primitive("sum")(..., na.rm = na.rm)
+#> 
 #> 3. sqrt
 #> function (x) 
 #> .Primitive("sqrt")(x)
